@@ -4,7 +4,7 @@ import axios from "axios";
 function LoginPage() {
   const [form, setForm] = useState({
     id: "",
-    pw: "",
+    password: "",
   });
 
   const handleChange = (e) => {
@@ -35,9 +35,9 @@ function LoginPage() {
           <br />
           <input
             type="password"
-            name="pw"
+            name="password"
             placeholder="비밀번호"
-            value={form.pw}
+            value={form.password}
             onChange={handleChange}
             className="w-full p-3 border rounded-lg mb-6 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />

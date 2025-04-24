@@ -6,7 +6,7 @@ function RegisterPage() {
   const [form, setForm] = useState({
     id: "",
     name: "",
-    pw: "",
+    password: "",
     confirmPw: "",
   });
 
@@ -18,13 +18,13 @@ function RegisterPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (form.pw !== form.confirmPw) {
+    if (form.password !== form.confirmPw) {
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
 
     console.log("회원가입 정보:", form);
-    axios.post("localhost:8080/signup", form);
+    axios.post("http://localhost:8080/member/signup", form);
   };
 
   return (
@@ -54,9 +54,9 @@ function RegisterPage() {
           <br />
           <input
             type="password"
-            name="pw"
+            name="password"
             placeholder="비밀번호"
-            value={form.pw}
+            value={form.password}
             onChange={handleChange}
             className="w-full p-3 border rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
