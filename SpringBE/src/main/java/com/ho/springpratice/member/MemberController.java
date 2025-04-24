@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MemberController {
 	@Autowired MemberDAO mDAO;
 	
-	@RequestMapping(value = "/member/signup", method = RequestMethod.POST)
+	@RequestMapping(value = "/api/member/signup", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<String> signup(@RequestBody Member m, HttpServletResponse res){
+	public ResponseEntity<String> signup(@RequestBody Member m){
 		try {
-			res.setHeader("Access-Control-Allow-Origin", "*");
+			System.out.println("123");
 			mDAO.reg(m);
 			return new ResponseEntity<String>("회원가입 성공",HttpStatus.OK);
 		} catch (Exception e) {
