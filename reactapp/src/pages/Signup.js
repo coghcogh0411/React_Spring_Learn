@@ -24,7 +24,7 @@ function RegisterPage() {
     }
 
     console.log("회원가입 정보:", form);
-    axios.post("http://124.54.77.48:8080/api/member/signup", form);
+    axios.post("http://localhost:8080/api/member/signup", form);
   };
 
   return (
