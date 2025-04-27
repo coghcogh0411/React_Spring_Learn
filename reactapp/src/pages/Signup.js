@@ -24,7 +24,11 @@ function RegisterPage() {
     }
 
     console.log("회원가입 정보:", form);
-    axios.post("http://localhost:8080/api/member/signup", form);
+    axios.post("http://localhost:8080/api/member/signup", JSON.stringify(form),{
+      headers: {
+        "Content-Type": "application/json", // JSON 형태로 보내기
+      }
+    });
   };
 
   return (
