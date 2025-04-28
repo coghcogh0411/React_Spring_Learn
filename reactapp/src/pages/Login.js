@@ -12,9 +12,19 @@ function LoginPage() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     console.log("로그인 정보:", form);
+    try {
+      const res = await axios.post("http://localhost:8080/api/member/login", form);
+      const token = res.data;
+      localStorage.setItem("token", token);
+      alert("로그인 성공");
+      
+    } catch (error) {
+      alert("로그인 실패");
+    }
+
   };
 
   return (

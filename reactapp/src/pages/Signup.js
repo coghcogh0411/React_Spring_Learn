@@ -22,9 +22,13 @@ function RegisterPage() {
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
-
+    const requestData = {
+      id: form.id,
+      name: form.name,
+      password: form.password,
+    };
     console.log("회원가입 정보:", form);
-    axios.post("http://localhost:8080/api/member/signup", JSON.stringify(form),{
+    axios.post("http://localhost:8080/api/member/signup", JSON.stringify(requestData),{
       headers: {
         "Content-Type": "application/json", // JSON 형태로 보내기
       }

@@ -4,19 +4,38 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ho.springpratice.JwtUtil;
+
 @Service
 public class MemberDAO {
 	@Autowired
 	private SqlSession ss;
 	
-	public void reg(Member m) {
+	//회원가입
+	public void regMember(Member m) {
 		try {
 			if(ss.getMapper(MemberMapper.class).regMember(m)==1) {
-				System.out.println("등록성공");
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("등록실패");
+			e.printStackTrace();
+		}
+	}
+	
+	//로그인
+	public String loginMember(Member m) {
+		try {
+			Member dbMember = ss.getMapper(MemberMapper.class).getMember(m);
+				if(dbMember != null) {
+					if(m.getPassword().equals(dbMember.getPassword())){
+						String token = JwtUtil.createToken(dbMember.getId());
+						return token;
+					}
+				}
+				return null;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
 		}
 	}
 }
