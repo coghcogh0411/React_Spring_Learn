@@ -1,11 +1,15 @@
 package com.ho.springpratice.member;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,11 +38,29 @@ public class MemberController {
 	@ResponseBody
 	public ResponseEntity<?> login(@RequestBody Member m){
 		try {
-			String token = mDAO.loginMember(m);
-			return ResponseEntity.ok().body(token);
+			Map<String, Object> response = mDAO.loginMember(m);
+			if(response != null) {
+				return ResponseEntity.ok(response);
+			}
+			else {
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
+		}
+	}
+	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@RequestMapping(value = "api/member/me", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public ResponseEntity<?> getMemberInfo(@RequestHeader("Authorization") String token){
+		try {
+			Map<String, Object> memberInfo = mDAO.getInfo(token);
+			return ResponseEntity.ok(memberInfo);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
 		}
 	}
 }

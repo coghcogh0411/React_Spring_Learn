@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../AuthContext";
+
 function LoginPage() {
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const [form, setForm] = useState({
     id: "",
     password: "",
@@ -16,23 +20,33 @@ function LoginPage() {
     e.preventDefault();
     console.log("로그인 정보:", form);
     try {
-      const res = await axios.post("http://localhost:8080/api/member/login", form);
+      const requestData = {
+        id: form.id,
+        password: form.password,
+      };
+      const res = await axios.post("http://localhost:8080/api/member/login", JSON.stringify(requestData),{
+        headers: {
+          "Content-Type": "application/json", 
+        }
+      });
       const token = res.data;
-      localStorage.setItem("token", token);
+      console.log(token);
+      login(token);
+      navigate("/");
       alert("로그인 성공");
       
     } catch (error) {
+      console.log(error);
       alert("로그인 실패");
     }
 
   };
 
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-blue-100">
       <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-sm">
-        <h2 className="text-2xl font-bold text-center text-blue-600 mb-6">
-          로그인
-        </h2>
+        <h2 className="text-2xl font-bold text-center text-blue-600 mb-6">로그인</h2>
         <form onSubmit={handleSubmit}>
           <input
             type="text"

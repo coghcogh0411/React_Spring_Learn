@@ -1,18 +1,23 @@
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
+import { AuthProvider } from "./AuthContext";
 import Login from "./pages/Login.js";
 import Signup from "./pages/Signup.js";
 import Board from "./pages/Board.js";
 import PostDetail from "./pages/PostDetail.js";
+import PostCreate from './pages/PostCreate.js'
 
 function App() {
   return (
+    <AuthProvider>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/board" element={<Board />} />
+        <Route path="/" element={<Board />} />
         <Route path="/postDetail" element={<PostDetail />} />
+        <Route path="/posts/new" element={<PostCreate />} />
       </Routes>
+    </AuthProvider>
   );
 }
 
