@@ -29,9 +29,10 @@ function LoginPage() {
           "Content-Type": "application/json", 
         }
       });
-      const token = res.data;
-      console.log(token);
-      login(token);
+      const token = res.data.token;
+      const id = res.data.id;
+      const name = res.data.name;
+      login({token,id,name});
       navigate("/");
       alert("로그인 성공");
       
