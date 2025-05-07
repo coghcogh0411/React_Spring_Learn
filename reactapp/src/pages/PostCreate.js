@@ -1,18 +1,48 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext";
 import Header from "../components/Header";
+import axios from "axios";
 
 function PostCreate() {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
   const navigate = useNavigate();
 
+  const { userInfo } = useAuth();
+
+  const [form, setForm] = useState({
+    title: "",
+    content: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    // 게시글 데이터 처리 로직 (예: API 호출)
-
-    // 등록 후 게시판 목록으로 돌아가기
-    navigate("/");
+    //userInfo있으면 글 등록록
+    if (userInfo && userInfo.name) {
+      const requestData = {
+        post_No: null,
+        post_Title: form.title,
+        post_Content: form.content,
+        post_Writer: userInfo.name,
+        post_Date: null
+      };
+      console.log(JSON.stringify(requestData));
+      axios.post(
+        "http://localhost:8080/api/post/reg",
+        JSON.stringify(requestData),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      navigate("/");
+    } else {
+      console.log("로그인 정보 없음: 글 작성 불가");
+    }
   };
 
   return (
@@ -28,8 +58,9 @@ function PostCreate() {
           <input
             type="text"
             id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            name="title"
+            value={form.title}
+            onChange={handleChange}
             className="w-full border border-gray-300 p-2 rounded"
             required
           />
@@ -44,8 +75,9 @@ function PostCreate() {
           </label>
           <textarea
             id="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
+            name="content"
+            value={form.content}
+            onChange={handleChange}
             className="w-full border border-gray-300 p-2 rounded"
             rows="6"
             required

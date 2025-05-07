@@ -8,9 +8,10 @@ const Board = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/api/posts") // 예시 URL
+    axios.get("http://localhost:8080/api/post/get") // 예시 URL
       .then((res) => {
         setPosts(res.data);
+        console.log(posts);
       })
       .catch((err) => {
         console.error("게시글 불러오기 실패", err);
