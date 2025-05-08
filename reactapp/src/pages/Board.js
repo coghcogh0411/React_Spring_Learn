@@ -11,12 +11,11 @@ const Board = () => {
     axios.get("http://localhost:8080/api/post/get") // 예시 URL
       .then((res) => {
         setPosts(res.data);
-        console.log(posts);
       })
       .catch((err) => {
         console.error("게시글 불러오기 실패", err);
       });
-  }, []);
+  },[]);
 
   return (
     <div className="min-h-screen bg-blue-50">

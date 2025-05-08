@@ -16,6 +16,7 @@ function App() {
         <Route path="/" element={<Board />} />
         <Route path="/postDetail" element={<PostDetail />} />
         <Route path="/posts/new" element={<PostCreate />} />
+        <Route path="/posts/:id" element={<PostDetail />} />
       </Routes>
     </AuthProvider>
   );

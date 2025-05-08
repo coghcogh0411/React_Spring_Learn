@@ -27,11 +27,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (!token || userInfo) {
-      console.log("있음");
-      return;
-    }
-
+    if (!token) return;
+  
     const fetchUserInfo = async () => {
       try {
         const res = await axios.get("http://localhost:8080/api/member/me", {
@@ -40,12 +37,13 @@ export const AuthProvider = ({ children }) => {
         setUserInfo(res.data);
         localStorage.setItem("userInfo", JSON.stringify(res.data));
       } catch (e) {
-        console.log("유저 정보 불러오기 실패", e);
-        logout();
+        console.log("토큰 만료 혹은 유효하지 않음", e);
+        logout(); // 여기서 토큰 만료되면 자동 로그아웃
       }
     };
+  
     fetchUserInfo();
-  }, [token, userInfo]);
+  }, [token]);
 
   return (
     <AuthContext.Provider value={{ token, login, logout, userInfo }}>

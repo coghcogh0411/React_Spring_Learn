@@ -1,5 +1,6 @@
 package com.ho.springpratice.post;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -21,5 +22,9 @@ public class PostDAO {
 	public List<Post> getPost() {
 		List<Post> posts = ss.getMapper(PostMapper.class).getPost();
 		return posts;
+	}
+	public Post getPostDetail(BigDecimal no) {
+		Post postDetail = ss.getMapper(PostMapper.class).getPostDetail(no);
+		return postDetail;
 	}
 }
