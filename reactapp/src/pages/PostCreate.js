@@ -7,7 +7,7 @@ import axios from "axios";
 function PostCreate() {
   const navigate = useNavigate();
 
-  const { userInfo } = useAuth();
+  const { token } = useAuth();
 
   const [form, setForm] = useState({
     title: "",
@@ -21,28 +21,22 @@ function PostCreate() {
   const handleSubmit = (e) => {
     e.preventDefault();
     //userInfo있으면 글 등록록
-    if (userInfo && userInfo.name) {
-      const requestData = {
-        post_No: null,
-        post_Title: form.title,
-        post_Content: form.content,
-        post_Writer: userInfo.name,
-        post_Date: null
-      };
-      console.log(JSON.stringify(requestData));
-      axios.post(
-        "http://localhost:8080/api/post/reg",
-        JSON.stringify(requestData),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      navigate("/");
-    } else {
-      console.log("로그인 정보 없음: 글 작성 불가");
-    }
+    const requestData = {
+      post_Title: form.title,
+      post_Content: form.content,
+    };
+    console.log(JSON.stringify(requestData));
+    axios.post(
+      "http://localhost:8080/api/post/reg",
+      JSON.stringify(requestData),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    navigate("/");
   };
 
   return (

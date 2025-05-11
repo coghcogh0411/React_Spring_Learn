@@ -6,7 +6,17 @@ const Header = () => {
 
   return (
     <header className="bg-blue-500 text-white p-4 flex justify-between items-center">
-      <Link to="/" className="text-xl font-bold">React_Spring_Learn</Link>
+      <div className="flex items-center space-x-8">
+        {/* 제목 */}
+        <Link to="/" className="text-xl font-bold">React_Spring_Learn</Link>
+
+        {/* 메뉴 항목들 */}
+        <div className="flex items-center space-x-6">
+          <Link to="/" className="hover:underline">게시판</Link>
+          <Link to="/data" className="hover:underline">자료실</Link>
+        </div>
+      </div>
+
       <div className="flex items-center space-x-4">
         {userInfo ? (
           <>
