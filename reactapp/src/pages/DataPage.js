@@ -5,7 +5,7 @@ import Header from "../components/Header";
 import { useAuth } from "../AuthContext";
 
 const DataPage = ({ data1,data2,data3,data4}) => {
-  const { token, userInfo } = useAuth();
+  const { userInfo } = useAuth();
   const handleFileClick = (file) => {
     window.location.href = `/data/${file}`;
   };
@@ -21,8 +21,8 @@ const DataPage = ({ data1,data2,data3,data4}) => {
           <DataCategory title="데이터4" data={data4} onItemClick={handleFileClick} />
         </div>
 
-        {userInfo && <DataUploadForm token={token} />}
       </div>
+        {userInfo && <DataUploadForm />}
     </div>
   );
 };

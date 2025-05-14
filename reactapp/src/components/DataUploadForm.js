@@ -1,61 +1,135 @@
 import React, { useState } from "react";
+import { useAuth } from "../AuthContext";
+import axios from "axios";
 
-const DataUploadForm = ({ token }) => {
-  const [isTrue, setIsTrue] = useState(true);
+const DataUploadForm = () => {
+  const { token } = useAuth();
 
+  const [isTrue, setIsTrue] = useState(false);
   const toggleUploadTable = () => {
     setIsTrue((prevState) => !prevState);
   };
+
+  const [form, setForm] = useState({
+    title: "",
+    file: null,
+    option: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value, files, type } = e.target;
+    if (type === "file") {
+      setForm((prev) => ({ ...prev, [name]: files[0] }));
+    } else {
+      setForm((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // 폼 기본 동작(페이지 새로고침) 막기
+
+    const formData = new FormData();
+    formData.append("title", form.title);
+    formData.append("file", form.file);
+    formData.append("option", form.option);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/data/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("업로드 성공", response.data);
+    } catch (error) {
+      console.error("업로드 실패", error);
+    }
+  };
+
   return (
     <div>
-
-      {/* 업로드 테이블 */}
       <div
         id="uploadTbl"
-        className={`fixed w-full ${isTrue ? "translate-y-full" : "translate-y-100"} bottom-0 transition-transform duration-500 ease-out`}
+        className={`fixed w-[30%] ${
+          isTrue ? "translate-y-[85%]" : "translate-y-[100%]"
+        } bottom-0 transition-transform duration-500 ease-out`}
       >
-      {/* 메뉴 버튼 클릭 시 업로드 테이블을 숨기거나 보이게 */}
-      <div
-        id="menuTbl"
-        onClick={toggleUploadTable}
-        className="cursor-pointer transition-transform duration-300 hover:scale-110 bg-gray-800 text-white py-2 px-4 rounded-lg"
-      >
-        메뉴
-      </div>
-        <div className="upload-table w-350 h-300  mx-auto bg-gray-800 rounded-2xl">
-          {/* 폼 내용 */}
-          <form action="/data.upload" method="post" encType="multipart/form-data">
-            <input name="token" value={token} type="hidden" />
-            <div className="flex flex-wrap gap-6 mb-6">
-              <label className="flex items-center gap-2 text-gray-700">
-                <input type="radio" name="category" value="e" className="accent-blue-600" /> 데이터1
-              </label>
-              <label className="flex items-center gap-2 text-gray-700">
-                <input type="radio" name="category" value="b" className="accent-blue-600" /> 데이터2
-              </label>
-              <label className="flex items-center gap-2 text-gray-700">
-                <input type="radio" name="category" value="p" className="accent-blue-600" /> 데이터3
-              </label>
-              <label className="flex items-center gap-2 text-gray-700">
-                <input type="radio" name="category" value="g" className="accent-blue-600" /> 데이터4
-              </label>
-            </div>
-            <div className="mb-6">
-              <label className="block text-gray-800 font-medium mb-1">제목</label>
-              <input
-                name="title"
-                type="text"
-                className="border border-gray-300 p-3 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              />
-            </div>
-            <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-              <input type="file" name="fileTemp" className="border border-gray-300 p-2 rounded-lg" />
-              <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow">
-                업로드
-              </button>
-            </div>
-          </form>
+        <div
+          id="menuTbl"
+          onClick={toggleUploadTable}
+          className="cursor-pointer transition-transform duration-300 hover:scale-105 bg-gray-800 text-white py-2 px-4 rounded-lg"
+        >
+          메뉴
         </div>
+
+        <form
+          onSubmit={handleSubmit}
+          className="upload-table w-350 h-300 mx-auto bg-gray-800 p-4 rounded-2xl space-y-4"
+        >
+          <div className="flex gap-2">
+            <input
+              type="radio"
+              id="option1"
+              name="option"
+              value="1"
+              className="hidden peer/option1"
+              onChange={handleChange}
+            />
+            <label
+              htmlFor="option1"
+              className="inline-block px-4 py-2 bg-gray-800 text-white border border-gray-700 rounded-full cursor-pointer transition-all duration-300 peer-checked/option1:bg-blue-500 peer-checked/option1:border-blue-500 hover:bg-gray-700"
+            >
+              옵션 1
+            </label>
+
+            <input
+              type="radio"
+              id="option2"
+              name="option"
+              value="2"
+              className="hidden peer/option2"
+              onChange={handleChange}
+            />
+            <label
+              htmlFor="option2"
+              className="inline-block px-4 py-2 bg-gray-800 text-white border border-gray-700 rounded-full cursor-pointer transition-all duration-300 peer-checked/option2:bg-blue-500 peer-checked/option2:border-blue-500 hover:bg-gray-700"
+            >
+              옵션 2
+            </label>
+          </div>
+
+          <div>
+            <label className="block text-white mb-1">제목</label>
+            <input
+              type="text"
+              name="title"
+              value={form.title}
+              onChange={handleChange}
+              className="border border-gray-300 p-3 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              required
+            />
+          </div>
+
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <input
+              type="file"
+              name="file"
+              onChange={handleChange}
+              className="border border-gray-300 p-2 rounded-lg"
+              required
+            />
+            <button
+              type="submit"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow"
+            >
+              업로드
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
