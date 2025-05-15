@@ -5,7 +5,7 @@ import axios from "axios";
 const DataUploadForm = () => {
   const { token } = useAuth();
 
-  const [isTrue, setIsTrue] = useState(false);
+  const [isTrue, setIsTrue] = useState(true);
   const toggleUploadTable = () => {
     setIsTrue((prevState) => !prevState);
   };
@@ -33,6 +33,10 @@ const DataUploadForm = () => {
     formData.append("file", form.file);
     formData.append("option", form.option);
 
+    for (let [key, value] of formData.entries()) {
+    console.log(key, value);
+  }
+
     try {
       const response = await axios.post(
         "http://localhost:8080/api/data/upload",
@@ -55,15 +59,15 @@ const DataUploadForm = () => {
       <div
         id="uploadTbl"
         className={`fixed w-[30%] ${
-          isTrue ? "translate-y-[85%]" : "translate-y-[100%]"
+          isTrue ? "translate-y-110" : "translate-y-[88%]"
         } bottom-0 transition-transform duration-500 ease-out`}
       >
         <div
           id="menuTbl"
           onClick={toggleUploadTable}
-          className="cursor-pointer transition-transform duration-300 hover:scale-105 bg-gray-800 text-white py-2 px-4 rounded-lg"
+          className="w-10 h-10 mx-auto flex items-center justify-center cursor-pointer transition-transform duration-300 hover:scale-105 bg-gray-800 text-white rounded-lg"
         >
-          메뉴
+          {isTrue ? "▼" : "▲"}
         </div>
 
         <form
