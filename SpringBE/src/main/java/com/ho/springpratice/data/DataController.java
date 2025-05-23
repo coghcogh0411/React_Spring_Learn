@@ -1,5 +1,9 @@
 package com.ho.springpratice.data;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,14 +27,15 @@ public class DataController {
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/api/data/upload", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public ResponseEntity<String> signup(
+	public ResponseEntity<String> regData(
 			@RequestParam("title") String title,
 		    @RequestParam("option") String option,
 		    @RequestParam("file") MultipartFile file,
-		    @RequestHeader("Authorization") String token){
+		    @RequestHeader("Authorization") String token,
+		    HttpServletRequest req){
 		
 		try {
-			dDAO.DataUpload(title, option, file);
+			dDAO.regData(title, option, file, req);
 			return new ResponseEntity<String>("업로드 성공",HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -38,5 +43,12 @@ public class DataController {
 			return new ResponseEntity<String>("업로드 실패",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
+	}
+	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@RequestMapping(value = "/api/data/get", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public ResponseEntity<?> getData(){
+		return new ResponseEntity<List<Data>>(dDAO.getData(),HttpStatus.OK);
 	}
 }

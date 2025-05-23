@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../AuthContext";
 import axios from "axios";
 
-const DataUploadForm = () => {
+const DataUploadForm = ({afterUpload}) => {
   const { token } = useAuth();
 
   const [isTrue, setIsTrue] = useState(true);
@@ -49,6 +49,7 @@ const DataUploadForm = () => {
         }
       );
       console.log("업로드 성공", response.data);
+      afterUpload();
     } catch (error) {
       console.error("업로드 실패", error);
     }
@@ -123,12 +124,12 @@ const DataUploadForm = () => {
               type="file"
               name="file"
               onChange={handleChange}
-              className="border border-gray-300 p-2 rounded-lg"
+              className="border border-gray-300 p-2 rounded-lg max-w-full sm:max-w-[200px] w-full"
               required
             />
             <button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow w-full sm:w-auto"
             >
               업로드
             </button>
