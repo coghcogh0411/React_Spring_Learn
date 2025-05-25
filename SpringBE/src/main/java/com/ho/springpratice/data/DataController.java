@@ -5,10 +5,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,5 +52,26 @@ public class DataController {
 	@ResponseBody
 	public ResponseEntity<?> getData(){
 		return new ResponseEntity<List<Data>>(dDAO.getData(),HttpStatus.OK);
+	}
+	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@RequestMapping(value = "/api/data/download/{filename}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public ResponseEntity<Resource> downloadData(@PathVariable("filename") String fn){
+		return dDAO.downloadFile(fn);
+	}
+	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@RequestMapping(value = "/api/data/delete/{filename:.+}", method = RequestMethod.DELETE, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public ResponseEntity<?> deleteData(@PathVariable("filename") String fn){
+		try {
+			System.out.println(fn);
+			dDAO.deleteFile(fn);
+			return new ResponseEntity<String>("파일 삭제 성공",HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new ResponseEntity<String>("파일 삭제 실패",HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }

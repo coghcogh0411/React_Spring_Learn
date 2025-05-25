@@ -4,6 +4,7 @@ import DataUploadForm from "../components/DataUploadForm";
 import Header from "../components/Header";
 import { useAuth } from "../AuthContext";
 import axios from "axios";
+import { saveAs } from "file-saver";
 
 const DataPage = () => {
   const { userInfo } = useAuth();
@@ -12,10 +13,7 @@ const DataPage = () => {
   const [data2, setData2] = useState([]);
   const [data3, setData3] = useState([]);
 
-  const handleFileClick = (file) => {
-    window.location.href = `/data/${file}`;
-  };
-
+  //데이터 가져오기
   const fetchData = async () => {
     try {
       const res = await axios.get("http://localhost:8080/api/data/get");
@@ -33,6 +31,37 @@ const DataPage = () => {
     }
   };
 
+  const onDelete = async (filename) => {
+    if (!window.confirm("정말 삭제하시겠습니까?")) return;
+    console.log(filename);
+    try {
+      const response = await axios.delete(
+        `http://localhost:8080/api/data/delete/${filename}`
+      );
+      fetchData();
+    } catch (error) {
+      console.error("삭제 실패", error);
+      alert("삭제에 실패했습니다.");
+    }
+  };
+
+  //파일 다운로드
+  const handleFileClick = async (filename) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/data/download/${filename}`,
+        {
+          responseType: "blob",
+        }
+      );
+      saveAs(response.data, filename);
+    } catch (error) {
+      console.log(filename);
+      console.error("다운로드 실패", error);
+      alert("다운로드에 실패했습니다.");
+    }
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -46,20 +75,23 @@ const DataPage = () => {
             title="데이터1"
             data={data1}
             onItemClick={handleFileClick}
+            onDelete={onDelete}
           />
           <DataCategory
             title="데이터2"
             data={data2}
             onItemClick={handleFileClick}
+            onDelete={onDelete}
           />
           <DataCategory
             title="데이터3"
             data={data3}
             onItemClick={handleFileClick}
+            onDelete={onDelete}
           />
         </div>
       </div>
-      {userInfo.id==="asd" && <DataUploadForm afterUpload={fetchData}/>}
+      {userInfo.id === "asd" && <DataUploadForm afterUpload={fetchData} />}
     </div>
   );
 };
