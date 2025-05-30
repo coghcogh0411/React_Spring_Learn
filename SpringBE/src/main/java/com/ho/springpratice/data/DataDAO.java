@@ -67,6 +67,8 @@ public class DataDAO {
 	public void deleteFile(String fn) {
 		try {
 			if(ss.getMapper(DataMapper.class).delData(fn)==1) {
+				File delFile= new File(uploadDir+fn);
+				delFile.delete();
 				System.out.println("삭제 성공");
 			}
 			System.out.println("mapper문제");
