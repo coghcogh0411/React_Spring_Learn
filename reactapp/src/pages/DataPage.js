@@ -35,7 +35,7 @@ const DataPage = () => {
     if (!window.confirm("정말 삭제하시겠습니까?")) return;
     console.log(filename);
     try {
-      const response = await axios.delete(
+      await axios.delete(
         `http://localhost:8080/api/data/delete/${filename}`
       );
       fetchData();
@@ -91,8 +91,8 @@ const DataPage = () => {
           />
         </div>
       </div>
-      {userInfo.id === "asd" && <DataUploadForm afterUpload={fetchData} />}
-    </div>
+      
+{userInfo && userInfo.id === "asd" && <DataUploadForm afterUpload={fetchData} />}    </div>
   );
 };
 

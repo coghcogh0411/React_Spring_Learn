@@ -14,6 +14,7 @@ const Header = () => {
         <div className="flex items-center space-x-6">
           <Link to="/" className="hover:underline">게시판</Link>
           <Link to="/data" className="hover:underline">자료실</Link>
+          <Link to="/chat" className="hover:underline">채팅방</Link>
         </div>
       </div>
 

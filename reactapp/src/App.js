@@ -7,6 +7,7 @@ import Board from "./pages/Board.js";
 import PostDetail from "./pages/PostDetail.js";
 import PostCreate from './pages/PostCreate.js'
 import DataPage from "./pages/DataPage.js";
+import ChatPage from './pages/ChatPage.js'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/posts/new" element={<PostCreate />} />
         <Route path="/posts/:id" element={<PostDetail />} />
         <Route path="/data" element={<DataPage />} />
+        <Route path="/chat" element={<ChatPage />} />
       </Routes>
     </AuthProvider>
   );

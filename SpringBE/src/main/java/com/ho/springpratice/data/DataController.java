@@ -62,7 +62,7 @@ public class DataController {
 	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
-	@RequestMapping(value = "/api/data/delete/{filename:.+}", method = RequestMethod.DELETE, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/api/data/delete/{filename:.+}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public ResponseEntity<?> deleteData(@PathVariable("filename") String fn){
 		try {

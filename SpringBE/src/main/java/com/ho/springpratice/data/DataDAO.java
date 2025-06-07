@@ -31,7 +31,10 @@ public class DataDAO {
 			}
 			Data data = new Data(title, file.getOriginalFilename(), option);
 			
-			String saveFileName = data.getData_File() + "_" + UUID.randomUUID().toString();
+			String baseName = data.getData_File().substring(0, data.getData_File().lastIndexOf('.'));
+	        String extension = data.getData_File().substring(data.getData_File().lastIndexOf('.'));
+	        
+	        String saveFileName = baseName + "_" + UUID.randomUUID().toString() + extension;
 			
 			File saveFile = new File(uploadDir, saveFileName);
 			file.transferTo(saveFile);
@@ -71,7 +74,6 @@ public class DataDAO {
 				delFile.delete();
 				System.out.println("삭제 성공");
 			}
-			System.out.println("mapper문제");
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
