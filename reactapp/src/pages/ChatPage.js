@@ -1,25 +1,48 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import Header from "../components/Header";
+import Message from "../components/Message";
+import { useAuth } from "../AuthContext";
 
-const socket = io("http://localhost:3001");
+const socket = io.connect("http://localhost:3001",{
+  cors: { origin: '*' }
+});
 
 function Chat() {
+  const chatRef = useRef(null);
+  const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
-  const [chat, setChat] = useState([]);
+  const { userInfo } = useAuth();
 
   useEffect(() => {
-    socket.on("chat message", (msg) => {
-      setChat((prev) => [...prev, msg]);
+    //서버 -> 클라이언트 전송
+    socket.on("srvMsg", (msg) => {
+      setMessages((prev) => [...prev, msg]);
+
+      // 스크롤 맨 아래로
+      setTimeout(() => {
+        if (chatRef.current) {
+          chatRef.current.scrollTop = chatRef.current.scrollHeight;
+        }
+      }, 0);
     });
-    return () => socket.off("chat message");
+
+    return () => socket.off("srvMsg");
   }, []);
 
+
   const sendMessage = () => {
-    if (message.trim() !== "") {
-      socket.emit("chat message", message);
-      setMessage("");
-    }
+    if (message.trim() === "") return;
+
+    const msgObj = {
+      writer: userInfo.name,
+      txt: message,
+      color: "a78bfa", 
+    };
+
+    // 클라이언트 -> 서버 전송
+    socket.emit("cliMsg", msgObj); 
+    setMessage("");
   };
 
   return (
@@ -31,19 +54,20 @@ function Chat() {
             💬 실시간 채팅
           </h2>
 
-          <div className="h-64 overflow-y-auto border rounded-xl p-4 bg-gray-50 mb-4 shadow-inner">
-            {chat.length === 0 ? (
-              <p className="text-gray-400 text-center">채팅이 없습니다.</p>
-            ) : (
-              chat.map((msg, idx) => (
-                <div
-                  key={idx}
-                  className="mb-2 p-2 bg-purple-100 rounded-xl w-fit max-w-xs"
-                >
-                  {msg}
-                </div>
-              ))
-            )}
+          <div
+            ref={chatRef}
+            className="p-4 space-y-2 overflow-auto h-[60vh] bg-gray-100 rounded-lg mb-4"
+            id="chatArea"
+          >
+            {messages.map((msg, index) => (
+              <Message
+                key={index}
+                writer={msg.writer}
+                text={msg.txt}
+                color={msg.color}
+                isMine={msg.writer === userInfo.name}
+              />
+            ))}
           </div>
 
           <div className="flex gap-2">
