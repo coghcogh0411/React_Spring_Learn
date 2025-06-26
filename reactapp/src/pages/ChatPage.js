@@ -18,13 +18,9 @@ function Chat() {
     //서버 -> 클라이언트 전송
     socket.on("srvMsg", (msg) => {
       setMessages((prev) => [...prev, msg]);
-
-      // 스크롤 맨 아래로
-      setTimeout(() => {
-        if (chatRef.current) {
-          chatRef.current.scrollTop = chatRef.current.scrollHeight;
-        }
-      }, 0);
+    });
+    socket.on("MsrvMsg", (msg) => {
+      setMessages((prev) => [...prev, msg]);
     });
 
     return () => socket.off("srvMsg");
@@ -37,7 +33,6 @@ function Chat() {
     const msgObj = {
       writer: userInfo.name,
       txt: message,
-      color: "a78bfa", 
     };
 
     // 클라이언트 -> 서버 전송

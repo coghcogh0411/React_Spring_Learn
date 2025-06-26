@@ -25,7 +25,12 @@ io.listen(3001);
 
 io.sockets.on('connection', function(socket){
   socket.on('cliMsg', function(msgObj){
+    console.log(msgObj);
     io.sockets.emit('srvMsg',msgObj);
+  })
+  socket.on('McliMsg', function(msgObj){
+    console.log(msgObj);
+    io.sockets.emit('MsrvMsg',msgObj);
   })
 })
 

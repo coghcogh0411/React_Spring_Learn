@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @Controller
 public class MemberController {
 	@Autowired MemberDAO mDAO;
 	
-	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/api/member/signup", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<String> signup(@RequestBody Member m){
@@ -33,7 +33,6 @@ public class MemberController {
 		
 	}
 	
-	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "api/member/login", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> login(@RequestBody Member m){
@@ -51,7 +50,6 @@ public class MemberController {
 		}
 	}
 	
-	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "api/member/me", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> getMemberInfo(@RequestHeader("Authorization") String token){

@@ -1,27 +1,39 @@
 package com.ho.springpratice;
 
-import java.util.Arrays;
+import java.io.IOException;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.stereotype.Component;
 
-@Configuration
-public class WebConfig{
-	@Bean
-	public CorsFilter corsFilter() {
-		CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true); // 인증정보 허용
-        config.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // 허용 오리진
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // 허용 메소드
-        config.setAllowedHeaders(Arrays.asList("*")); // 허용 헤더
+@Component
+public class WebConfig implements Filter{
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+			throws IOException, ServletException {
+		// TODO Auto-generated method stub
+		HttpServletResponse response = (HttpServletResponse) res;
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config); // 모든 URL에 적용
-
-        return new CorsFilter(source);
+        chain.doFilter(req, res);
+	}
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		
 	}
 }

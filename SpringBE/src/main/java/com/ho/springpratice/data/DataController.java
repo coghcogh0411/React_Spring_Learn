@@ -21,12 +21,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ho.springpratice.member.Member;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @Controller
 public class DataController {
 	@Autowired
 	private DataDAO dDAO;
 	
-	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/api/data/upload", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<String> regData(
@@ -47,21 +47,18 @@ public class DataController {
 		
 	}
 	
-	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/api/data/get", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> getData(){
 		return new ResponseEntity<List<Data>>(dDAO.getData(),HttpStatus.OK);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/api/data/download/{filename}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<Resource> downloadData(@PathVariable("filename") String fn){
 		return dDAO.downloadFile(fn);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/api/data/delete/{filename:.+}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public ResponseEntity<?> deleteData(@PathVariable("filename") String fn){

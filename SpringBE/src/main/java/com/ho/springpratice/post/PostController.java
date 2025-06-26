@@ -37,7 +37,7 @@ public class PostController {
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
-	@RequestMapping(value = "api/post/get", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/api/post/get", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> getPost(@RequestParam("page") int page) {
 		try {
