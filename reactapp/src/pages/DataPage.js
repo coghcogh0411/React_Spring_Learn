@@ -68,7 +68,6 @@ const DataPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-16">
-      <Header />
       <div className="max-w-7xl mx-auto px-6 pt-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <DataCategory

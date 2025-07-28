@@ -9,10 +9,12 @@ import PostCreate from './pages/PostCreate.js'
 import DataPage from "./pages/DataPage.js";
 import ChatPage from './pages/ChatPage.js'
 import WikiPage from './pages/Wiki.js'
+import Header from './components/Header.js'
 
 function App() {
   return (
     <AuthProvider>
+      <Header />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

@@ -41,7 +41,6 @@ const Board = () => {
 
   return (
     <div className="min-h-screen bg-blue-50">
-      <Header />
       <main className="max-w-5xl mx-auto px-4 py-10">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-blue-600">게시글 목록</h2>

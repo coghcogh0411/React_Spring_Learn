@@ -41,7 +41,6 @@ function PostCreate() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <Header />
       <h1 className="text-3xl font-bold text-blue-600 mb-6">글쓰기</h1>
 
       <form onSubmit={handleSubmit} className="bg-white shadow rounded-lg p-6">

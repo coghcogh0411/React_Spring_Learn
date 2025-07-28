@@ -1,6 +1,9 @@
 package com.ho.springpratice.wiki;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 import org.apache.ibatis.session.SqlSession;
@@ -20,6 +23,10 @@ public class WikiDAO {
 
 	public Resource getWikiTempImg(String f) {
 		try {
+			Path path = Paths.get(TempUploadDir, f);
+			System.out.println("📁 요청 파일 경로: " + path);
+			System.out.println("✅ 파일 존재 여부: " + Files.exists(path));
+			
 			return new UrlResource("file:" + TempUploadDir + "/" + f);
 		} catch (Exception e) {
 			e.printStackTrace();

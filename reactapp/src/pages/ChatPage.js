@@ -42,7 +42,6 @@ function Chat() {
 
   return (
     <div>
-      <Header />
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-purple-200 p-6">
         <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-6">
           <h2 className="text-2xl font-bold text-center text-purple-700 mb-4">

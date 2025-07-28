@@ -15,13 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+@CrossOrigin(origins = "http://localhost:3000")
 @Controller
 public class PostController {
 	@Autowired
 	private PostDAO pDAO;
 
-	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "api/post/reg", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> regPost(@RequestBody Post p, @RequestHeader("Authorization") String token) {
@@ -36,7 +35,6 @@ public class PostController {
 		}
 	}
 
-	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "/api/post/get", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> getPost(@RequestParam("page") int page) {
@@ -54,7 +52,6 @@ public class PostController {
 		}
 	}
 
-	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "api/post/{no}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> getPost(@PathVariable BigDecimal no) {
@@ -63,7 +60,6 @@ public class PostController {
 	}
 
 	// 댓글 등록
-	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "api/post/{no}/regReply", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> regPostReply(@PathVariable("no") BigDecimal no, @RequestBody PostReply pr,
@@ -79,7 +75,6 @@ public class PostController {
 	}
 
 	// 댓글 불러오기
-	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value = "api/post/{no}/getReply", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> getPostReply(@PathVariable BigDecimal no) {

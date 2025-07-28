@@ -1,7 +1,5 @@
 package com.ho.springpratice.wiki;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +21,7 @@ public class WikiController {
 	@Autowired
 	private WikiDAO wDAO;
 	
-	@RequestMapping(value = "/api/wiki/img/temp/{file}", method = RequestMethod.GET)
+	@RequestMapping(value = "/api/wiki/img/temp/{file:.+}", method = RequestMethod.GET)
 	@ResponseBody
 	public Resource wikiTempImg(@PathVariable("file") String f) {
 		return wDAO.getWikiTempImg(f);
@@ -35,7 +33,7 @@ public class WikiController {
 		try {
 			String fileName = wDAO.regWikiTempImg(file);
 			String imageUrl = fileName;
-
+			
 			HashMap<String, String> result = new HashMap<String, String>();
 			result.put("url", imageUrl);
 			
