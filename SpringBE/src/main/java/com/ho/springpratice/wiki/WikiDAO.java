@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 import org.apache.ibatis.session.SqlSession;
@@ -52,5 +53,24 @@ public class WikiDAO {
 			return null;
 		}
 
+	}
+	public void regWikiTitle(WikiTitle wikiTitle) {
+		try {
+			if(ss.getMapper(WikiMapper.class).regWikiTitle(wikiTitle)==1) {
+				System.out.println("위키제목등록성공");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("위키제목등록실패");
+		}
+	}
+	public List<String> getWikiTitle(){
+		try {
+			List<String> title = ss.getMapper(WikiMapper.class).getWikiTitle();
+			return title;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
 	}
 }
