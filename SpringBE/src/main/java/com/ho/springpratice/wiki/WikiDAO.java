@@ -61,12 +61,14 @@ public class WikiDAO {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			System.out.println("위키제목등록실패");
 		}
 	}
 	public List<String> getWikiTitle(){
 		try {
 			List<String> title = ss.getMapper(WikiMapper.class).getWikiTitle();
+			
 			return title;
 		} catch (Exception e) {
 			// TODO: handle exception

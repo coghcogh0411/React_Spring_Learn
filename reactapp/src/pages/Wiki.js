@@ -10,6 +10,7 @@ function MarkdownEditor() {
 
   const [showInput, setShowInput] = useState(false);
   const [newCategory, setNewCategory] = useState("");
+  const [nowCategory, setNowCategory] = useState(categories[0]);
 
   const getCategory = async () => {
     try {
@@ -21,10 +22,15 @@ function MarkdownEditor() {
       setCategories([]);
     }
   };
-
+  
   useEffect(() => {
     getCategory();
   }, []);
+
+  const handleSelectCategory = (wiki_Title) =>{
+    setNowCategory(wiki_Title);
+    //타이틀관련내용가져오기
+  }
 
   const handleAddCategory = () => {
     if (newCategory.trim() !== "" && !categories.includes(newCategory)) {
@@ -67,8 +73,8 @@ function MarkdownEditor() {
         <ul className="space-y-2">
           {Array.isArray(categories) && categories.length > 0 ? (
             categories.map((cat, idx) => (
-              <li key={idx} className="hover:text-blue-600 cursor-pointer">
-                {cat}
+              <li onClick={handleSelectCategory(cat.wiki_Title)} key={idx} className="hover:text-blue-600 cursor-pointer">
+                {cat.wiki_Title}
               </li>
             ))
           ) : (
@@ -90,7 +96,7 @@ function MarkdownEditor() {
                 className="text-blue-600 font-bold"
                 onClick={handleAddCategory}
               >
-                추가
+                +
               </button>
             </div>
           ) : (
