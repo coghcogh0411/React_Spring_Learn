@@ -68,7 +68,6 @@ public class WikiDAO {
 	public List<String> getWikiTitle(){
 		try {
 			List<String> title = ss.getMapper(WikiMapper.class).getWikiTitle();
-			
 			return title;
 		} catch (Exception e) {
 			// TODO: handle exception
