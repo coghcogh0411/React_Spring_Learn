@@ -27,7 +27,7 @@ function PostCreate() {
     };
     console.log(JSON.stringify(requestData));
     axios.post(
-      "http://localhost:8080/api/post/reg",
+      "https://guparesourcepack.duckdns.org:8443/api/post/reg",
       JSON.stringify(requestData),
       {
         headers: {

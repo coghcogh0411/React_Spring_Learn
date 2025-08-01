@@ -10,7 +10,7 @@ const Board = () => {
 
   const fetchBoard = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/post/get", {
+      const res = await axios.get("https://guparesourcepack.duckdns.org:8443/api/post/get", {
         params: {
           page: page,
         },

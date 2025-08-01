@@ -15,7 +15,7 @@ function MarkdownEditor() {
   const getCategory = async () => {
     try {
       const category = await axios.get(
-        "http://localhost:8080/api/wiki/get/title"
+        "https://guparesourcepack.duckdns.org:8443/api/wiki/get/title"
       );
       setCategories(category.data);
     } catch (error) {
@@ -25,6 +25,7 @@ function MarkdownEditor() {
   
   useEffect(() => {
     getCategory();
+    //주제에맞는 내용 가져오기 getContent();
   }, []);
 
   const handleSelectCategory = (wiki_Title) =>{
@@ -34,7 +35,7 @@ function MarkdownEditor() {
 
   const handleAddCategory = () => {
     if (newCategory.trim() !== "" && !categories.includes(newCategory)) {
-      axios.post("http://localhost:8080/api/wiki/reg/title", {
+      axios.post("https://guparesourcepack.duckdns.org:8443/api/wiki/reg/title", {
         wiki_Title: newCategory,
       }).then(()=>{
         setCategories([...categories, newCategory]);
@@ -50,12 +51,12 @@ function MarkdownEditor() {
     formData.append("file", blob);
     try {
       const res = await axios.post(
-        "http://localhost:8080/api/wiki/img/temp/upload",
+        "https://guparesourcepack.duckdns.org:8443/api/wiki/img/temp/upload",
         formData
       );
       const filename = res.data.url;
       console.log("file", filename);
-      const imageUrl = `http://localhost:8080/api/wiki/img/temp/${filename}`;
+      const imageUrl = `https://guparesourcepack.duckdns.org:8443/api/wiki/img/temp/${filename}`;
       callback(imageUrl);
     } catch (error) {
       console.log(error);
@@ -73,7 +74,7 @@ function MarkdownEditor() {
         <ul className="space-y-2">
           {Array.isArray(categories) && categories.length > 0 ? (
             categories.map((cat, idx) => (
-              <li onClick={handleSelectCategory(cat.wiki_Title)} key={idx} className="hover:text-blue-600 cursor-pointer">
+              <li onClick={() => handleSelectCategory(cat.wiki_Title)} key={idx} className="hover:text-blue-600 cursor-pointer">
                 {cat.wiki_Title}
               </li>
             ))

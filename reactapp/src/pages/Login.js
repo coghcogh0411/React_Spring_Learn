@@ -24,7 +24,7 @@ function LoginPage() {
         id: form.id,
         password: form.password,
       };
-      const res = await axios.post("http://localhost:8080/api/member/login", JSON.stringify(requestData),{
+      const res = await axios.post("https://guparesourcepack.duckdns.org:8443/api/member/login", JSON.stringify(requestData),{
         headers: {
           "Content-Type": "application/json", 
         }

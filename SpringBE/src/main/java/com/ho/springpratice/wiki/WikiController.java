@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://guparesourcepack.duckdns.org:3000")
 @Controller
 public class WikiController {
 	@Autowired

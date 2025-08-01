@@ -16,7 +16,7 @@ const DataPage = () => {
   //데이터 가져오기
   const fetchData = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/data/get");
+      const res = await axios.get("https://guparesourcepack.duckdns.org:8443/api/data/get");
       const allData = res.data;
 
       const d1 = allData.filter((item) => item.data_Option === "1");
@@ -36,7 +36,7 @@ const DataPage = () => {
     console.log(filename);
     try {
       await axios.delete(
-        `http://localhost:8080/api/data/delete/${filename}`
+        `https://guparesourcepack.duckdns.org:8443/api/data/delete/${filename}`
       );
       fetchData();
     } catch (error) {
@@ -49,7 +49,7 @@ const DataPage = () => {
   const handleFileClick = async (filename) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/data/download/${filename}`,
+        `https://guparesourcepack.duckdns.org:8443/api/data/download/${filename}`,
         {
           responseType: "blob",
         }
@@ -91,7 +91,7 @@ const DataPage = () => {
         </div>
       </div>
       
-{userInfo && userInfo.id === "asd" && <DataUploadForm afterUpload={fetchData} />}    </div>
+{userInfo && userInfo.id === "admin" && <DataUploadForm afterUpload={fetchData} />}    </div>
   );
 };
 

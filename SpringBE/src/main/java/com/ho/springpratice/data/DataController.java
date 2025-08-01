@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ho.springpratice.member.Member;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://guparesourcepack.duckdns.org:3000")
 @Controller
 public class DataController {
 	@Autowired
