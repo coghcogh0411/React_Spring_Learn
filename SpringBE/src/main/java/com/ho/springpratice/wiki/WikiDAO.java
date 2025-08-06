@@ -67,11 +67,27 @@ public class WikiDAO {
 	}
 	public List<String> getWikiTitle(){
 		try {
-			List<String> title = ss.getMapper(WikiMapper.class).getWikiTitle();
+			List<String> title = ss.getMapper(WikiMapper.class).getWikiTitles();
 			return title;
 		} catch (Exception e) {
 			// TODO: handle exception
 			return null;
 		}
+	}
+	public void regWikiContent(Wiki w) {
+		//제목을 이용해서 내용조회
+		String wikiTitle = w.getWiki_Title();
+		Wiki wtemp = ss.getMapper(WikiMapper.class).getWikiContent(wikiTitle);
+		//wtemp가 null이 아니거나 제목이 존제한다면 업데이트
+		if(wtemp != null && wtemp.getWiki_Title() != null) {
+			ss.getMapper(WikiMapper.class).updWikiContent(w);
+		}else {
+			//아니면 업로드
+			ss.getMapper(WikiMapper.class).regWikiContent(w);
+		}
+	}
+	public Wiki getWikiContent(String wt) {
+		Wiki wtemp = ss.getMapper(WikiMapper.class).getWikiContent(wt);
+		return wtemp;
 	}
 }

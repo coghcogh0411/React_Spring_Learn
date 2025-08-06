@@ -61,14 +61,14 @@ public class WikiController {
 	@RequestMapping(value = "/api/wiki/reg/content", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> regWikiContent(@RequestBody Wiki w){
-		System.out.println(w.getWiki_Title());
-		System.out.println(w.getWiki_Content());
+		wDAO.regWikiContent(w);
 		return new ResponseEntity<String>("asd",HttpStatus.OK);
 	}
 	@RequestMapping(value = "/api/wiki/get/content", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public ResponseEntity<?> getWikiContent(){
-		return new ResponseEntity<String>("asd",HttpStatus.OK);
+	public ResponseEntity<?> getWikiContent(@RequestParam("wiki_Title") String wt){
+		Wiki result = wDAO.getWikiContent(wt);
+		return new ResponseEntity<Wiki>(result,HttpStatus.OK);
 		
 	}
 }

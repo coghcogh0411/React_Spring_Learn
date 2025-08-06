@@ -26,21 +26,28 @@ function MarkdownEditor() {
         "https://guparesourcepack.duckdns.org:8443/api/wiki/get/title"
       );
       setCategories(category.data);
+
+      setNowCategory(category.data[0].wiki_Title);
+
+      getContent(category.data[0].wiki_Title);
     } catch (error) {
       setCategories([]);
     }
   };
   
-  const getContent = async () =>{
-    const content = await axios.get("https://guparesourcepack.duckdns.org:8443/api/wiki/get/content",{
-      wiki_Title: nowCategory,
+  const getContent = async (wiki_Title) =>{
+    const res = await axios.get("https://guparesourcepack.duckdns.org:8443/api/wiki/get/content",{
+      params:{
+        wiki_Title: wiki_Title,
+      }
     });
-    setContent(content.data);
+    setContent(res.data.wiki_Content);
+    console.log(content)
   }
   const handleSelectCategory = (wiki_Title) =>{
     setNowCategory(wiki_Title);
     //타이틀관련내용가져오기
-    getContent();
+    getContent(wiki_Title);
   }
   
   const handleAddCategory = () => {
@@ -56,9 +63,6 @@ function MarkdownEditor() {
   };
   useEffect(() => {
     getCategory();
-    setNowCategory(categories[0]);
-    //주제에맞는 내용 가져오기 getContent();
-    getContent();
   }, []);
 
   return (

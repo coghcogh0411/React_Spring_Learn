@@ -7,7 +7,7 @@ import axios from "axios";
 
 const MarkdownPage = ({ isAdmin, title, content}) => {
   const editorRef = React.useRef();
-
+  const viewerRef = React.useRef();
 
   const uploadImages = async (blob, callback) => {
     // 폼데이터 생성 후,
@@ -59,7 +59,7 @@ const MarkdownPage = ({ isAdmin, title, content}) => {
           </div>
         </div>
       ) : (
-        <Viewer initialValue={content} />
+        <Viewer ref={viewerRef} initialValue={content} key={title} />
       )}
     </div>
   );
