@@ -58,4 +58,17 @@ public class WikiController {
 		List<String> wikiTitle = wDAO.getWikiTitle();
 		return new ResponseEntity<List<String>>(wikiTitle,HttpStatus.OK);
 	}
+	@RequestMapping(value = "/api/wiki/reg/content", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public ResponseEntity<?> regWikiContent(@RequestBody Wiki w){
+		System.out.println(w.getWiki_Title());
+		System.out.println(w.getWiki_Content());
+		return new ResponseEntity<String>("asd",HttpStatus.OK);
+	}
+	@RequestMapping(value = "/api/wiki/get/content", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public ResponseEntity<?> getWikiContent(){
+		return new ResponseEntity<String>("asd",HttpStatus.OK);
+		
+	}
 }

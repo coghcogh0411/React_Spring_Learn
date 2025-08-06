@@ -1,16 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Editor, Viewer } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import axios from "axios";
+import { useAuth } from "../AuthContext";
+import WikiMarkdownPage from '../components/WikiMarkdownPage';
 
 function MarkdownEditor() {
   const editorRef = useRef();
+  const {userInfo} = useAuth();
+
+  const isAdmin = userInfo && userInfo.id === 'asd';
 
   const [categories, setCategories] = useState([]);
 
   const [showInput, setShowInput] = useState(false);
   const [newCategory, setNewCategory] = useState("");
-  const [nowCategory, setNowCategory] = useState(categories[0]);
+  const [nowCategory, setNowCategory] = useState();
+
+  const [content, setContent] = useState("");
 
   const getCategory = async () => {
     try {
@@ -23,16 +31,18 @@ function MarkdownEditor() {
     }
   };
   
-  useEffect(() => {
-    getCategory();
-    //주제에맞는 내용 가져오기 getContent();
-  }, []);
-
+  const getContent = async () =>{
+    const content = await axios.get("https://guparesourcepack.duckdns.org:8443/api/wiki/get/content",{
+      wiki_Title: nowCategory,
+    });
+    setContent(content.data);
+  }
   const handleSelectCategory = (wiki_Title) =>{
     setNowCategory(wiki_Title);
     //타이틀관련내용가져오기
+    getContent();
   }
-
+  
   const handleAddCategory = () => {
     if (newCategory.trim() !== "" && !categories.includes(newCategory)) {
       axios.post("https://guparesourcepack.duckdns.org:8443/api/wiki/reg/title", {
@@ -44,28 +54,12 @@ function MarkdownEditor() {
       })
     }
   };
-  const uploadImages = async (blob, callback) => {
-    // 폼데이터 생성 후,
-    const formData = new FormData();
-    // blob로 전달받은 파일을 담고,
-    formData.append("file", blob);
-    try {
-      const res = await axios.post(
-        "https://guparesourcepack.duckdns.org:8443/api/wiki/img/temp/upload",
-        formData
-      );
-      const filename = res.data.url;
-      console.log("file", filename);
-      const imageUrl = `https://guparesourcepack.duckdns.org:8443/api/wiki/img/temp/${filename}`;
-      callback(imageUrl);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const submitWiki = (e) => {
-    const markdownContente = editorRef.current.getInstance().getMarkdown();
-    console.log(markdownContente);
-  };
+  useEffect(() => {
+    getCategory();
+    setNowCategory(categories[0]);
+    //주제에맞는 내용 가져오기 getContent();
+    getContent();
+  }, []);
 
   return (
     <div className="min-h-screen flex bg-gray-50">
@@ -116,26 +110,7 @@ function MarkdownEditor() {
           <h2 className="text-2xl font-bold text-gray-800 border-b pb-2">
             📝 문서 작성 (Toast UI Editor)
           </h2>
-
-          <Editor
-            ref={editorRef}
-            previewStyle="vertical"
-            height="500px"
-            initialEditType="markdown"
-            useCommandShortcut={true}
-            hooks={{
-              addImageBlobHook: uploadImages,
-            }}
-          />
-
-          <div className="flex justify-end">
-            <button
-              onClick={submitWiki}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow transition"
-            >
-              저장하기
-            </button>
-          </div>
+          <WikiMarkdownPage isAdmin={isAdmin} title={nowCategory} content={content}></WikiMarkdownPage>
         </div>
       </main>
     </div>
