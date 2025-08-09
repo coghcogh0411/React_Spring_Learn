@@ -20,7 +20,6 @@ const MarkdownPage = ({ isAdmin, title, content}) => {
         formData
       );
       const filename = res.data.url;
-      console.log("file", filename);
       const imageUrl = `https://guparesourcepack.duckdns.org:8443/api/wiki/img/temp/${filename}`;
       callback(imageUrl);
     } catch (error) {
@@ -29,12 +28,16 @@ const MarkdownPage = ({ isAdmin, title, content}) => {
   };
   const submitWiki = (e) => {
     const markdown = editorRef.current.getInstance().getMarkdown();
-    console.log(title);
     axios.post("https://guparesourcepack.duckdns.org:8443/api/wiki/reg/content",{
       wiki_Title: title,
       wiki_Content: markdown
     })
   };
+  React.useEffect(() => {
+  if (isAdmin && editorRef.current) {
+    editorRef.current.getInstance().setMarkdown(content || "");
+  }
+}, [content]);
   return (
     <div>
       {isAdmin ? (
@@ -45,6 +48,7 @@ const MarkdownPage = ({ isAdmin, title, content}) => {
             height="500px"
             initialEditType="markdown"
             useCommandShortcut={true}
+            initialValue={content}
             hooks={{
               addImageBlobHook: uploadImages,
             }}
@@ -59,7 +63,7 @@ const MarkdownPage = ({ isAdmin, title, content}) => {
           </div>
         </div>
       ) : (
-        <Viewer ref={viewerRef} initialValue={content} key={title} />
+        <Viewer ref={viewerRef} initialValue={content} key={content} />
       )}
     </div>
   );

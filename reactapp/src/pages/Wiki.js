@@ -28,8 +28,6 @@ function MarkdownEditor() {
       setCategories(category.data);
 
       setNowCategory(category.data[0].wiki_Title);
-
-      getContent(category.data[0].wiki_Title);
     } catch (error) {
       setCategories([]);
     }
@@ -42,12 +40,9 @@ function MarkdownEditor() {
       }
     });
     setContent(res.data.wiki_Content);
-    console.log(content)
   }
   const handleSelectCategory = (wiki_Title) =>{
     setNowCategory(wiki_Title);
-    //타이틀관련내용가져오기
-    getContent(wiki_Title);
   }
   
   const handleAddCategory = () => {
@@ -55,7 +50,7 @@ function MarkdownEditor() {
       axios.post("https://guparesourcepack.duckdns.org:8443/api/wiki/reg/title", {
         wiki_Title: newCategory,
       }).then(()=>{
-        setCategories([...categories, newCategory]);
+        setCategories([...categories, { wiki_Title: newCategory }]);
         setNewCategory("");
         setShowInput(false);
       })
@@ -63,8 +58,14 @@ function MarkdownEditor() {
   };
   useEffect(() => {
     getCategory();
+    
   }, []);
 
+  useEffect(() => {
+  if (nowCategory) {
+    getContent(nowCategory);
+  }
+}, [nowCategory]);
   return (
     <div className="min-h-screen flex bg-gray-50">
       <aside className="w-64 bg-white shadow-md p-6">
@@ -112,7 +113,7 @@ function MarkdownEditor() {
       <main className="flex-1 p-8">
         <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-xl p-6 space-y-6">
           <h2 className="text-2xl font-bold text-gray-800 border-b pb-2">
-            📝 문서 작성 (Toast UI Editor)
+            {nowCategory}
           </h2>
           <WikiMarkdownPage isAdmin={isAdmin} title={nowCategory} content={content}></WikiMarkdownPage>
         </div>
