@@ -62,7 +62,7 @@ public class WikiController {
 	@ResponseBody
 	public ResponseEntity<?> regWikiContent(@RequestBody Wiki w){
 		wDAO.regWikiContent(w);
-		return new ResponseEntity<String>("asd",HttpStatus.OK);
+		return new ResponseEntity<String>("wiki등록완료",HttpStatus.OK);
 	}
 	@RequestMapping(value = "/api/wiki/get/content", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
