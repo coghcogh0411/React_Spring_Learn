@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import Message from "../components/Message";
 import { useAuth } from "../AuthContext";
 
-const socket = io.connect("http://localhost:3001",{
+const socket = io.connect("https://guparesourcepack.duckdns.org:3001",{
   cors: { origin: '*' }
 });
 

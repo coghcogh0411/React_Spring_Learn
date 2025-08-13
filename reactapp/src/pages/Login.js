@@ -12,9 +12,19 @@ function LoginPage() {
     password: "",
   });
 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const kakaoLogin = () => {
+    const REST_API_KEY = process.env.REACT_APP_REST_API_KEY;
+    const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
+
+    const url = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
+
+    window.open(url, "kakaoLogin", "width=500,height=600");
   };
 
   const handleSubmit = async (e) => {
@@ -80,13 +90,13 @@ function LoginPage() {
         </form>
         <div className="my-4">
           <button
-            
+            onClick={kakaoLogin}
             style={{ border: "none", background: "transparent", padding: 0 }}
           >
             <img
               src={kakaoLoginImg}
               alt="카카오 로그인"
-              style={{ width: "400px", height:"50px"}}
+              style={{ width: "400px", height: "50px" }}
             />
           </button>
         </div>
