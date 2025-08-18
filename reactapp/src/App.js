@@ -9,6 +9,7 @@ import PostCreate from './pages/PostCreate.js'
 import DataPage from "./pages/DataPage.js";
 import ChatPage from './pages/ChatPage.js'
 import WikiPage from './pages/Wiki.js'
+import KakaoRedirect from './pages/KakaoRedirect.js'
 import Header from './components/Header.js'
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/login/oauth/kakao" element={<KakaoRedirect/>}/>
         <Route path="/signup" element={<Signup />} />
         <Route path="/" element={<Board />} />
         <Route path="/postDetail" element={<PostDetail />} />

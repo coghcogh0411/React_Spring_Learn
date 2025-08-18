@@ -1,6 +1,5 @@
 package com.ho.springpratice.member;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ public class MemberController {
 	@ResponseBody
 	public ResponseEntity<String> signup(@RequestBody Member m){
 		try {
-			System.out.println("123");
 			mDAO.regMember(m);
 			return new ResponseEntity<String>("회원가입 성공",HttpStatus.OK);
 		} catch (Exception e) {
@@ -60,5 +58,11 @@ public class MemberController {
 			// TODO: handle exception
 			return null;
 		}
+	}
+	@RequestMapping(value = "api/member/kakao/login", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public void kakaoLogin(@RequestBody Map<String, String> body){
+		String code = body.get("code");
+		mDAO.kakaoLogin(code);
 	}
 }

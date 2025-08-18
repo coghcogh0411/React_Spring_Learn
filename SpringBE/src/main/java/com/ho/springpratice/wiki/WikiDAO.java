@@ -78,7 +78,7 @@ public class WikiDAO {
 		//제목을 이용해서 내용조회
 		String wikiTitle = w.getWiki_Title();
 		Wiki wtemp = ss.getMapper(WikiMapper.class).getWikiContent(wikiTitle);
-		//wtemp가 null이 아니거나 제목이 존제한다면 업데이트
+		//wtemp가 null이 아니거나 제목이 존재한다면 업데이트
 		if(wtemp != null && wtemp.getWiki_Title() != null) {
 			ss.getMapper(WikiMapper.class).updWikiContent(w);
 		}else {

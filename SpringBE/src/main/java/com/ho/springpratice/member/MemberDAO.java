@@ -4,10 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import com.ho.springpratice.JwtUtil;
 
@@ -15,7 +23,13 @@ import com.ho.springpratice.JwtUtil;
 public class MemberDAO {
 	@Autowired
 	private SqlSession ss;
-
+	
+	@Value("${kakao.client-id}")
+	private String clientId;
+	
+	@Value("${kakao.redirect-uri}")
+    private String redirectUri;
+	
 	// 회원가입
 	public void regMember(Member m) {
 		try {
@@ -59,5 +73,39 @@ public class MemberDAO {
 		result.put("id", userId);
 		result.put("name", userName);
 		return result;
+	}
+	
+	public void kakaoLogin(String code) {
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<String,String>();
+        params.add("grant_type", "authorization_code");
+        params.add("client_id", clientId);
+        params.add("redirect_uri", redirectUri);
+        params.add("code", code);
+        
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+        ResponseEntity<String> response = restTemplate.postForEntity(
+                "https://kauth.kakao.com/oauth/token", request, String.class);
+        JSONObject json = new JSONObject(response.getBody());
+        String accessToken = json.getString("access_token");
+        System.out.println(accessToken);
+        
+        RestTemplate restTemplate1 = new RestTemplate();
+		HttpHeaders headers1 = new HttpHeaders();
+		headers1.add("Authorization", "Bearer " + accessToken);
+        headers1.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+        
+        HttpEntity<?> kakaoRequest = new HttpEntity<Map>(headers1);
+        
+        ResponseEntity<Map> response1 = restTemplate1.exchange(
+                "https://kapi.kakao.com/v2/user/me",
+                HttpMethod.POST,
+                kakaoRequest,
+                Map.class
+        );
+        System.out.println(response1);
 	}
 }
