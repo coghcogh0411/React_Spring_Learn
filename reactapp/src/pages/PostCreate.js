@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
-import Header from "../components/Header";
 import axios from "axios";
 
 function PostCreate() {
@@ -20,7 +19,7 @@ function PostCreate() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    //userInfo있으면 글 등록록
+    //userInfo있으면 글 등록
     const requestData = {
       post_Title: form.title,
       post_Content: form.content,
@@ -35,8 +34,9 @@ function PostCreate() {
           Authorization: `Bearer ${token}`,
         },
       }
-    );
-    navigate("/");
+    ).then((res)=>{
+      navigate("/");
+    })
   };
 
   return (

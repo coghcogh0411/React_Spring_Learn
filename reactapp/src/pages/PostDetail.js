@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 import axios from "axios";
-import Header from "../components/Header";
 import ReplyList from "../components/ReplyList";
 
 const PostDetail = () => {

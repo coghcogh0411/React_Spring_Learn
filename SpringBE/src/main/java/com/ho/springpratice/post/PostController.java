@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-@CrossOrigin(origins = "https://guparesourcepack.duckdns.org:3000")
+@CrossOrigin(origins = "https://guparesourcepack.duckdns.org")
 @Controller
 public class PostController {
 	@Autowired
@@ -26,7 +26,6 @@ public class PostController {
 	public ResponseEntity<?> regPost(@RequestBody Post p, @RequestHeader("Authorization") String token) {
 		try {
 			pDAO.regPost(p, token);
-			System.out.println("성공");
 			return new ResponseEntity<String>("게시글 등록 성공", HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -43,7 +42,6 @@ public class PostController {
 			int pageSize = 10;
 			int offset = (page - 1) * pageSize;
 			List<Post> posts = pDAO.getPost(offset, pageSize);
-			System.out.println(posts);
 			return new ResponseEntity<List<Post>>(posts, HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO: handle exception

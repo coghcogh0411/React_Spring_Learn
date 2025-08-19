@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../AuthContext";
@@ -11,7 +11,6 @@ function LoginPage() {
     id: "",
     password: "",
   });
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,17 +29,23 @@ function LoginPage() {
   useEffect(() => {
     const handler = async (event) => {
       if (event.origin !== window.location.origin) return;
-      
-      const {code}=event.data;
+
+      const { code } = event.data;
       if (code) {
         try {
           // 스프링 서버로 인가 코드 전송
-          const res = await axios.post("https://guparesourcepack.duckdns.org:8443/api/member/kakao/login", {code})
-          console.log("카카오 로그인 성공:", res.data);
+          const res = await axios.post(
+            "https://guparesourcepack.duckdns.org:8443/api/member/kakao/login",
+            { code }
+          );
+          const token = res.data.token;
+          const id = res.data.id;
+          const name = res.data.name;
+          login({ token, id, name });
           navigate("/");
         } catch (error) {
           console.error("카카오 로그인 실패:", error);
-        alert("카카오 로그인 실패");
+          alert("카카오 로그인 실패");
         }
       }
     };

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
-import Header from "../components/Header";
 import Message from "../components/Message";
 import { useAuth } from "../AuthContext";
 

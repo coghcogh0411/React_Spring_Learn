@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ho.springpratice.JwtUtil;
+import com.ho.springpratice.member.Member;
+import com.ho.springpratice.member.MemberMapper;
 
 import io.jsonwebtoken.Claims;
 
@@ -20,8 +22,9 @@ public class PostDAO {
 	public void regPost(Post p, String token) {
 		String userToken = token.replace("Bearer ", "");
 		Claims claims = JwtUtil.validateToken(userToken);
-		String writer = claims.get("name", String.class);
-		p.setPost_Writer(writer);
+		String writerId = claims.getSubject();
+		Member writer = ss.getMapper(MemberMapper.class).getMemberName(writerId);
+		p.setPost_Writer(writer.getName());
 		
 		if(ss.getMapper(PostMapper.class).regPost(p)==1) {
 		}
@@ -43,8 +46,9 @@ public class PostDAO {
 	public void regPostReply(BigDecimal no, PostReply pr, String token) {
 		String userToken = token.replace("Bearer ", "");
 		Claims claims = JwtUtil.validateToken(userToken);
-		String writer = claims.get("name", String.class);
-		pr.setReply_Writer(writer);
+		String writerId = claims.getSubject();
+		Member writer = ss.getMapper(MemberMapper.class).getMemberName(writerId);
+		pr.setReply_Writer(writer.getName());
 		pr.setReply_Post_No(no);
 		if(ss.getMapper(PostMapper.class).regPostReply(pr)==1) {
 		}

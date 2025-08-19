@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DataCategory from "../components/DataCategory";
 import DataUploadForm from "../components/DataUploadForm";
-import Header from "../components/Header";
 import { useAuth } from "../AuthContext";
 import axios from "axios";
 import { saveAs } from "file-saver";

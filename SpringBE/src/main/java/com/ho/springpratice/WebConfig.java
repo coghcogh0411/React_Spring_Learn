@@ -24,7 +24,7 @@ public class WebConfig implements Filter{
 			throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		HttpServletResponse response = (HttpServletResponse) res;
-        response.setHeader("Access-Control-Allow-Origin", "https://guparesourcepack.duckdns.org:3000");
+        response.setHeader("Access-Control-Allow-Origin", "https://guparesourcepack.duckdns.org");
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
         response.setHeader("Access-Control-Allow-Credentials", "true");
