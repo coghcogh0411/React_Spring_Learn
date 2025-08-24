@@ -39,7 +39,7 @@ const DataUploadForm = ({afterUpload}) => {
 
     try {
       const response = await axios.post(
-        "https://guparesourcepack.duckdns.org:8443/api/data/upload",
+        "https://guparesourcepack.duckdns.org/api/data/upload",
         formData,
         {
           headers: {

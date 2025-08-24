@@ -16,11 +16,11 @@ const MarkdownPage = ({ isAdmin, title, content}) => {
     formData.append("file", blob);
     try {
       const res = await axios.post(
-        "https://guparesourcepack.duckdns.org:8443/api/wiki/img/temp/upload",
+        "https://guparesourcepack.duckdns.org/api/wiki/img/temp/upload",
         formData
       );
       const filename = res.data.url;
-      const imageUrl = `https://guparesourcepack.duckdns.org:8443/api/wiki/img/temp/${filename}`;
+      const imageUrl = `https://guparesourcepack.duckdns.org/api/wiki/img/temp/${filename}`;
       callback(imageUrl);
     } catch (error) {
       console.log(error);
@@ -28,7 +28,7 @@ const MarkdownPage = ({ isAdmin, title, content}) => {
   };
   const submitWiki = (e) => {
     const markdown = editorRef.current.getInstance().getMarkdown();
-    axios.post("https://guparesourcepack.duckdns.org:8443/api/wiki/reg/content",{
+    axios.post("https://guparesourcepack.duckdns.org/api/wiki/reg/content",{
       wiki_Title: title,
       wiki_Content: markdown
     })

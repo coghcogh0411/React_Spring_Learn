@@ -21,7 +21,7 @@ public class PostController {
 	@Autowired
 	private PostDAO pDAO;
 
-	@RequestMapping(value = "api/post/reg", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/post/reg", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> regPost(@RequestBody Post p, @RequestHeader("Authorization") String token) {
 		try {
@@ -34,7 +34,7 @@ public class PostController {
 		}
 	}
 
-	@RequestMapping(value = "/api/post/get", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/post/get", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> getPost(@RequestParam("page") int page) {
 		try {
@@ -50,7 +50,7 @@ public class PostController {
 		}
 	}
 
-	@RequestMapping(value = "api/post/{no}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/post/{no}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> getPost(@PathVariable BigDecimal no) {
 		Post postDetail = pDAO.getPostDetail(no);
@@ -58,7 +58,7 @@ public class PostController {
 	}
 
 	// 댓글 등록
-	@RequestMapping(value = "api/post/{no}/regReply", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/post/{no}/regReply", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> regPostReply(@PathVariable("no") BigDecimal no, @RequestBody PostReply pr,
 			@RequestHeader("Authorization") String token) {
@@ -73,7 +73,7 @@ public class PostController {
 	}
 
 	// 댓글 불러오기
-	@RequestMapping(value = "api/post/{no}/getReply", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/post/{no}/getReply", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> getPostReply(@PathVariable BigDecimal no) {
 		try {

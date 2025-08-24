@@ -13,13 +13,14 @@ public class Post {
 	private String post_Writer;
 	private Date post_Date;
 	private List<PostReply> post_Reply;
+	private String name;
 
 	public Post() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public Post(BigDecimal post_No, String post_Title, String post_Content, String post_Writer, Date post_Date,
-			List<PostReply> post_Reply) {
+			List<PostReply> post_Reply, String name) {
 		super();
 		this.post_No = post_No;
 		this.post_Title = post_Title;
@@ -27,6 +28,15 @@ public class Post {
 		this.post_Writer = post_Writer;
 		this.post_Date = post_Date;
 		this.post_Reply = post_Reply;
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public BigDecimal getPost_No() {

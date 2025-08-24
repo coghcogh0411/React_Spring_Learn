@@ -24,7 +24,7 @@ public class PostDAO {
 		Claims claims = JwtUtil.validateToken(userToken);
 		String writerId = claims.getSubject();
 		Member writer = ss.getMapper(MemberMapper.class).getMemberName(writerId);
-		p.setPost_Writer(writer.getName());
+		p.setPost_Writer(writer.getId());
 		
 		if(ss.getMapper(PostMapper.class).regPost(p)==1) {
 		}
@@ -48,7 +48,7 @@ public class PostDAO {
 		Claims claims = JwtUtil.validateToken(userToken);
 		String writerId = claims.getSubject();
 		Member writer = ss.getMapper(MemberMapper.class).getMemberName(writerId);
-		pr.setReply_Writer(writer.getName());
+		pr.setReply_Writer(writer.getId());
 		pr.setReply_Post_No(no);
 		if(ss.getMapper(PostMapper.class).regPostReply(pr)==1) {
 		}

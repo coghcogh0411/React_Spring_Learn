@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -29,12 +30,17 @@ public class MemberDAO {
 
 	@Value("${kakao.redirect-uri}")
 	private String redirectUri;
-
+	
+	private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	
 	// 회원가입
 	public void regMember(Member m) {
 		try {
 			m.setProvider("LOCAL");
-			m.setProvider_id(null);
+			m.setProvider_id(m.getId());
+			String encodedPassword = passwordEncoder.encode(m.getPassword());
+			m.setPassword(encodedPassword);
+			
 			if (ss.getMapper(MemberMapper.class).regMember(m) == 1) {
 			}
 		} catch (Exception e) {
@@ -48,7 +54,7 @@ public class MemberDAO {
 		try {
 			Member dbMember = ss.getMapper(MemberMapper.class).getMember(m);
 			if (dbMember != null) {
-				if (m.getPassword().equals(dbMember.getPassword())) {
+				if (passwordEncoder.matches(m.getPassword(), dbMember.getPassword())) {
 					String token = JwtUtil.createToken(dbMember);
 					Map<String, Object> response = new HashMap<String, Object>();
 					response.put("token", token);
@@ -87,7 +93,9 @@ public class MemberDAO {
 		params.add("client_id", clientId);
 		params.add("redirect_uri", redirectUri);
 		params.add("code", code);
-
+		System.out.println("==== 카카오 인가코드 ====" + code);
+		System.out.println("==== clientId ====" + clientId);
+		System.out.println("==== redirectUri ====" + redirectUri);
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(params,
 				headers);
 		ResponseEntity<String> response = restTemplate.postForEntity("https://kauth.kakao.com/oauth/token", request,

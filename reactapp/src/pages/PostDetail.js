@@ -14,7 +14,7 @@ const PostDetail = () => {
   // 게시글 불러오기
   useEffect(() => {
     axios
-      .get(`https://guparesourcepack.duckdns.org:8443/api/post/${id}`)
+      .get(`https://guparesourcepack.duckdns.org/api/post/${id}`)
       .then((res) => setPost(res.data))
       .catch((err) => console.error("게시글 불러오기 실패", err));
   }, [id]);
@@ -22,7 +22,7 @@ const PostDetail = () => {
   // 댓글 불러오기
   useEffect(() => {
     axios
-      .get(`https://guparesourcepack.duckdns.org:8443/api/post/${id}/getReply`)
+      .get(`https://guparesourcepack.duckdns.org/api/post/${id}/getReply`)
       .then((res) => setReplies(res.data))
       .catch((err) => console.error("댓글 불러오기 실패", err));
   }, [id]);
@@ -31,7 +31,7 @@ const PostDetail = () => {
     if (!newReply.trim()) return;
     try {
       await axios.post(
-        `https://guparesourcepack.duckdns.org:8443/api/post/${id}/regReply`,
+        `https://guparesourcepack.duckdns.org/api/post/${id}/regReply`,
         {
           reply_Content: newReply
         },
@@ -43,7 +43,7 @@ const PostDetail = () => {
       );
       setNewReply("");
       // 댓글 다시 불러오기
-      const res = await axios.get(`https://guparesourcepack.duckdns.org:8443/api/post/${id}/getReply`);
+      const res = await axios.get(`https://guparesourcepack.duckdns.org/api/post/${id}/getReply`);
       setReplies(res.data);
     } catch (err) {
       console.error("댓글 작성 실패", err);
@@ -59,7 +59,7 @@ const PostDetail = () => {
           {post.post_Title}
         </h1>
         <div className="text-gray-500 mb-2">
-          <span className="mr-4">작성자: {post.post_Writer}</span>
+          <span className="mr-4">작성자: {post.name}</span>
           <span>{new Date(post.post_Date).toLocaleString()}</span>
         </div>
         <hr className="my-4" />

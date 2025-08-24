@@ -33,9 +33,10 @@ function LoginPage() {
       const { code } = event.data;
       if (code) {
         try {
+          console.log(code);
           // 스프링 서버로 인가 코드 전송
           const res = await axios.post(
-            "https://guparesourcepack.duckdns.org:8443/api/member/kakao/login",
+            "https://guparesourcepack.duckdns.org/api/member/kakao/login",
             { code }
           );
           const token = res.data.token;
@@ -61,7 +62,7 @@ function LoginPage() {
         password: form.password,
       };
       const res = await axios.post(
-        "https://guparesourcepack.duckdns.org:8443/api/member/login",
+        "https://guparesourcepack.duckdns.org/api/member/login",
         JSON.stringify(requestData),
         {
           headers: {

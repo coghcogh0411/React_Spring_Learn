@@ -27,7 +27,7 @@ public class DataController {
 	@Autowired
 	private DataDAO dDAO;
 	
-	@RequestMapping(value = "/api/data/upload", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/data/upload", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<String> regData(
 			@RequestParam("title") String title,
@@ -47,19 +47,19 @@ public class DataController {
 		
 	}
 	
-	@RequestMapping(value = "/api/data/get", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/data/get", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> getData(){
 		return new ResponseEntity<List<Data>>(dDAO.getData(),HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/api/data/download/{filename}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/data/download/{filename:.+}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<Resource> downloadData(@PathVariable("filename") String fn){
 		return dDAO.downloadFile(fn);
 	}
 	
-	@RequestMapping(value = "/api/data/delete/{filename:.+}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/data/delete/{filename:.+}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public ResponseEntity<?> deleteData(@PathVariable("filename") String fn){
 		try {

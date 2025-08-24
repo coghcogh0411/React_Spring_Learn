@@ -28,7 +28,7 @@ function RegisterPage() {
       password: form.password,
     };
     console.log("회원가입 정보:", form);
-    axios.post("https://guparesourcepack.duckdns.org:8443/api/member/signup", JSON.stringify(requestData),{
+    axios.post("https://guparesourcepack.duckdns.org/api/member/signup", JSON.stringify(requestData),{
       headers: {
         "Content-Type": "application/json", // JSON 형태로 보내기
       }

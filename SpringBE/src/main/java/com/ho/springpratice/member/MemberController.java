@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MemberController {
 	@Autowired MemberDAO mDAO;
 	
-	@RequestMapping(value = "/api/member/signup", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/member/signup", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<String> signup(@RequestBody Member m){
 		try {
@@ -32,7 +32,7 @@ public class MemberController {
 		
 	}
 	
-	@RequestMapping(value = "api/member/login", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/member/login", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> login(@RequestBody Member m){
 		try {
@@ -49,7 +49,7 @@ public class MemberController {
 		}
 	}
 	
-	@RequestMapping(value = "api/member/me", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/member/me", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> getMemberInfo(@RequestHeader("Authorization") String token){
 		try {
@@ -60,12 +60,13 @@ public class MemberController {
 			return null;
 		}
 	}
-	@RequestMapping(value = "api/member/kakao/login", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/member/kakao/login", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> kakaoLogin(@RequestBody Map<String, String> body){
 		String code = body.get("code");
 		Member m = mDAO.getKakaoUserInfo(code);
 		Map<String, Object> response = mDAO.loginKakaoMember(m);
+		System.out.println(response);
 		if(response != null) {
 			return ResponseEntity.ok(response);
 		}else {

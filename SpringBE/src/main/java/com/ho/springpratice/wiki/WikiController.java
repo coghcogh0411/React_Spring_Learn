@@ -23,13 +23,13 @@ public class WikiController {
 	@Autowired
 	private WikiDAO wDAO;
 	
-	@RequestMapping(value = "/api/wiki/img/temp/{file:.+}", method = RequestMethod.GET)
+	@RequestMapping(value = "/wiki/img/temp/{file:.+}", method = RequestMethod.GET)
 	@ResponseBody
 	public Resource wikiTempImg(@PathVariable("file") String f) {
 		return wDAO.getWikiTempImg(f);
 	}
 	
-	@RequestMapping(value = "/api/wiki/img/temp/upload", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/wiki/img/temp/upload", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> regImgTempUpload(@RequestParam("file") MultipartFile file){
 		try {
@@ -45,26 +45,26 @@ public class WikiController {
 			return new ResponseEntity<String>("업로드 실패",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	@RequestMapping(value = "/api/wiki/reg/title", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/wiki/reg/title", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> regWikiTitle(@RequestBody WikiTitle wikiTitle){
 		System.out.println(wikiTitle.getWiki_Title());
 		wDAO.regWikiTitle(wikiTitle);
 		return new ResponseEntity<String>("등록성공",HttpStatus.OK);
 	}
-	@RequestMapping(value = "/api/wiki/get/title", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/wiki/get/title", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> getWikiTitle(){
 		List<String> wikiTitle = wDAO.getWikiTitle();
 		return new ResponseEntity<List<String>>(wikiTitle,HttpStatus.OK);
 	}
-	@RequestMapping(value = "/api/wiki/reg/content", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/wiki/reg/content", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> regWikiContent(@RequestBody Wiki w){
 		wDAO.regWikiContent(w);
 		return new ResponseEntity<String>("wiki등록완료",HttpStatus.OK);
 	}
-	@RequestMapping(value = "/api/wiki/get/content", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/wiki/get/content", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<?> getWikiContent(@RequestParam("wiki_Title") String wt){
 		Wiki result = wDAO.getWikiContent(wt);

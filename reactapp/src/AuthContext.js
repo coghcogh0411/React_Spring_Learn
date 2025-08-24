@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
   
     const fetchUserInfo = async () => {
       try {
-        const res = await axios.get("http://localhost:8080/api/member/me", {
+        const res = await axios.get("https://guparesourcepack.duckdns.org/api/member/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUserInfo(res.data);

@@ -11,19 +11,29 @@ public class PostReply {
 	private String reply_Writer;
 	private String reply_Content;
 	private Date reply_Date;
+	private String name;
 
 	public PostReply() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public PostReply(BigDecimal reply_No, BigDecimal reply_Post_No, String reply_Writer, String reply_Content,
-			Date reply_Date) {
+			Date reply_Date, String name) {
 		super();
 		this.reply_No = reply_No;
 		this.reply_Post_No = reply_Post_No;
 		this.reply_Writer = reply_Writer;
 		this.reply_Content = reply_Content;
 		this.reply_Date = reply_Date;
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public BigDecimal getReply_No() {
